@@ -121,7 +121,7 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
     if (tipo === 'hospitales') {
         
         Hospital.findById(id, (err, hospital) => {
-             if (!usuario) {
+             if (!hospital) {
                  return res.status(400).json({
                      ok: true,
                      message: 'El hospital no existe'

@@ -13,7 +13,7 @@ app.get('/', function (req, res) {
 
 
 
-    Usuario.find({}, 'nombre correo img role')
+    Usuario.find({}, 'nombre correo img role google')
         .skip(desde)
         .limit(5)
         .exec((err, usuarios) => {
@@ -35,7 +35,7 @@ app.get('/', function (req, res) {
         });
 });
 
-app.post('/', mdAutenticacion.verificaToken, (req, res) => {
+app.post('/', (req, res) => {
     const body = req.body;
 
     var usuario = new Usuario({
@@ -62,7 +62,7 @@ app.post('/', mdAutenticacion.verificaToken, (req, res) => {
     });
 });
 
-app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
+app.put('/:id', [mdAutenticacion.verificaToken, mdAutenticacion.verificaAdmin_o_usuario], (req, res) => {
     var id = req.params.id;
     var body = req.body;
     Usuario.findById(id, (err, usuario) => {
@@ -109,7 +109,7 @@ app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
 
 //Delete user
 
-app.delete('/:id', mdAutenticacion.verificaToken, (req, res) => {
+app.delete('/:id', [mdAutenticacion.verificaToken, mdAutenticacion.verificaAdmin_o_usuario], (req, res) => {
     var id = req.params.id;
     Usuario.findByIdAndDelete(id, (err, usuario) => {
         if (err) {
